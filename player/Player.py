@@ -6,7 +6,7 @@ class Player:
     pass
 
 # Sets the player's name. Called by Intro scene
-  def setName(self, playerName):
+  def setName(self, playerName : str):
     self._name = playerName
 
 # Used to retrieve player's name.

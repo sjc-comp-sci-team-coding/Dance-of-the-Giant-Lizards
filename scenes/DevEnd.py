@@ -1,4 +1,5 @@
 from .BasicScene import BasicScene
+from player import Player
 
 # This class is to test functionality of other scenes. Only use for development.
 class DevEnd(BasicScene):
@@ -8,7 +9,7 @@ class DevEnd(BasicScene):
 
   # The runScene method should always return a string that will load the next scene
   # Additionally, this method should always be called with the player object in main.py
-  def runScene (self, player):
+  def runScene (self, player : Player):
     # Test message
     print("We reached the ending scene meow-ster!")
 

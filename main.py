@@ -1,13 +1,12 @@
-from ascii_art import drawHelloWorld
 from scenes import *
 from player import Player
 
 # The "*" will import all public classes and variables from the scenes directory (aka folder).
 
 # This class will create a dictionary for all scenes and return the final dict object
-def makeTableOfScenes ():
+def makeTableOfScenes () -> dict[str, BasicScene]:
   # Explicitly calling the dictionary class. Could use {} literal instead.
-  tableOfScenes = dict()
+  tableOfScenes : dict[str, BasicScene] = dict()
 
   # Below are the scenes to be loaded into the dictionary
   # Every key is assigned an instance of a scene class.
