@@ -2,6 +2,9 @@ class Options:
   _optionsList : list[str] = []
   _message = ""
 
+  # These attributes need to be set using the respective setters explicitly.
+  _timeDelay = 0.05 # Default time delay if not set explicitly.
+  _isSingleMessage = True # True renders "press enter". False does not.
 
   def __init__ (self, optionList : list[str] = [], message : str = ""):
     # Check if the argument is a list. Will not check contents.
@@ -40,3 +43,17 @@ class Options:
 
   def getMessage(self):
     return self._message
+
+# getters and setters for the time delay feature when printing text.
+  def setTimeDelay(self, timeDelay : float):
+    self._timeDelay = timeDelay
+
+  def getTimeDelay(self):
+    return self._timeDelay
+
+  # Getters and setters for the "press enter" feature when passed to renderMessage().
+  def setIsSingleMessage(self, isSingleMessage : bool):
+    self._isSingleMessage = isSingleMessage
+
+  def getIsSingleMessage(self):
+    return self._isSingleMessage

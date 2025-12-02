@@ -1,11 +1,12 @@
 import os
 from .Options import Options
 from player import Player
+import time
 class BasicScene:
-  def __init__ (self):
-    pass
-    # pass is used to avoid errors related to having an empty body in function definition.
-    # Todo: fill out the BasicScene class if needed.
+  _defaultTimeDelay = 0.05
+
+  def __init__ (self, defaultTimeDelay : float = 0.05):
+    self._defaultTimeDelay = defaultTimeDelay
 
   def runScene(self, player : Player) -> str:
     # This method should never run. Please make sure to overwrite it.
@@ -57,18 +58,40 @@ class BasicScene:
   # This method should accept an instance of Options class to render text on screen.
   # optionsObj : Options is a type hint for VSCode
   def renderOptions(self, optionsObj : Options):
-    print(f"{optionsObj.getMessage()}\n")
 
+    # Build a message string to pass onto the renderMessage method after formatting.
+    messageString = f"{optionsObj.getMessage()}\n\n"
+    self.renderMessage(messageString, False)
+
+  # This part is responsible for rendering the options including the time delay.
     optionList = optionsObj.getAllOptions()
     for i in range(len(optionList)):
-      print(f"{i + 1} - {optionList[i]}\n")
+      optionString = f"{i + 1} - {optionList[i]}\n\n"
+      self.renderMessage(optionString, False)
+      time.sleep(optionsObj.getTimeDelay())
 
 
   # This method should render a block of text and have a prompt to allow the player time to read
-  def renderMessage(self, message : Options | str):
+  # By default the time delay is 0.05 seconds. The Options class is also default 0.05 seconds.
+  # To override the default, provide the time delay in the Options instance.
+  # Also we can initiate the Scene with a new default using super().__init__(time) in the child class.
+  def renderMessage(self, message : Options | str, isSingleMessage : bool = True):
+    timeDelay = self._defaultTimeDelay
     # This is if an instance of Options is provided.
     if isinstance(message, Options):
+      timeDelay = message.getTimeDelay()
+      isSingleMessage = message.getIsSingleMessage()
       message = message.getMessage()
 
-    print(f"{message}\n")
-    input("Press enter to continue...")
+    # Warning: At this point of the exectution, message should be type string!
+
+    # This allows the characters to print as if typed.
+    for character in message:
+      # sep and end are explicitly set to empty strings to allow single consecutive char printing
+      # flush forces the output to render. This prevents the chars from being delayed in the buffer.
+      print(character, sep='', end='', flush=True)
+      time.sleep(timeDelay)
+
+    # Added for messages that do not need the prompt.
+    if isSingleMessage:
+      input("\nPress enter to continue...")
